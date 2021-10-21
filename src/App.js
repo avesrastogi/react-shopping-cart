@@ -19,16 +19,63 @@ const products = [
   },
 ];
 
+
+const deleteItem = (e) => {
+  e.preventDefault()
+  db.collection('cartItems').doc(id).delete();
+}
+
+let options = []
+
+for(let i=1; i<Math.max(item.quantity + 1, 20); i++) {
+  options.push(<option value={i}> Qty: {i}</option>)
+}
+
+const changeQuantity = (newQuantity) => {
+  db.collection('cartItems').doc(id).update({
+      quantity: parseInt(newQuantity)
+  })
+}
+
 class App extends Component {
   state = {
     items: products,
   };
 
+
+
+  // for total price
+  getTotalPrice = () => {
+    let total = 0;
+    products.forEach((item) => {
+        total += (item.product.price * item.product.quantity)
+    })
+    return total;
+  }
+  
+  // for total count
+  getCount = () => {
+    let count = 0;
+    // Loop through all cart items
+    products.forEach((item) => {
+        // add the quantity of the cart item to total
+        count += item.product.quantity;
+    })
+  
+    return count;
+  }
+
+
+  
   render() {
     return (
       <div>
-        <section>Cart Items - 0</section>          
-        <section>Total Cart Price - 0</section> 
+        <section 
+          value={item.quantity}
+          onChange={(e) => changeQuantity(e.target.value)}>
+            Cart Items - {getCount}
+          </section>          
+        <section>Total Cart Price - {getTotalPrice}</section> 
         <table>
           <thead>
             <tr>
@@ -43,9 +90,11 @@ class App extends Component {
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>
-                  <button>+</button>
-                  <span>0</span>
-                  <button>-</button>
+                  <button onClick={()=>{this.handleAddQuantity(item.id)}}>+</button>
+                  <span 
+                    value={item.quantity}
+                    onChange={(e) => changeQuantity(e.target.value)}>{options}</span>
+                  <button onClick={()=>{this.handleSubtractQuantity(item.id)}}>-</button>
                 </td>
               </tr>
             ))}
@@ -55,5 +104,7 @@ class App extends Component {
     );
   }
 }
+
+
 
 export default App;
