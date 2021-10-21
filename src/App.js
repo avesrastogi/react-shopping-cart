@@ -70,9 +70,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <section 
-          value={item.quantity}
-          onChange={(e) => changeQuantity(e.target.value)}>
+        <section>
             Cart Items - {getCount}
           </section>          
         <section>Total Cart Price - {getTotalPrice}</section> 
