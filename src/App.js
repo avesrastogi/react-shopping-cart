@@ -4,7 +4,7 @@ import "./styles.css";
 const products = [
   {
     id: 1,
-    name: "Coffee Mug",
+    name: "Coffee Mug",
     price: 70,
   },
   {
@@ -22,7 +22,7 @@ const products = [
 
 const deleteItem = (e) => {
   e.preventDefault()
-  products.doc(id).delete();
+  products.doc(products.id).delete();
 }
 
 let options = []
@@ -32,20 +32,14 @@ for(let i=1; i<Math.max(products.item.quantity + 1, 20); i++) {
 }
 
 const changeQuantity = (newQuantity) => {
-  products.doc(id).update({
+  products.doc(products.id).update({
       quantity: parseInt(newQuantity)
   })
 }
 
-class App extends Component {
-  state = {
-    items: products,
-  };
-
-
 
   // for total price
-  getTotalPrice = () => {
+  const getTotalPrice = () => {
     let total = 0;
     products.forEach((item) => {
         total += (item.product.price * item.product.quantity)
@@ -54,7 +48,7 @@ class App extends Component {
   }
   
   // for total count
-  getCount = () => {
+  const getCount = () => {
     let count = 0;
     // Loop through all cart items
     products.forEach((item) => {
@@ -66,14 +60,25 @@ class App extends Component {
   }
 
 
+
+
+class App extends Component {
+  state = {
+    items: products,
+  };
+
+
+
+
+
   
   render() {
     return (
       <div>
         <section>
-            Cart Items - {getCount}
-          </section>          
-        <section>Total Cart Price - {getTotalPrice}</section> 
+            Cart Items - {getCount}
+          </section>          
+        <section>Total Cart Price - {getTotalPrice}</section> 
         <table>
           <thead>
             <tr>
