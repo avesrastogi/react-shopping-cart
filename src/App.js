@@ -65,6 +65,7 @@ const changeQuantity = (newQuantity) => {
 class App extends Component {
   state = {
     items: products,
+    quantity: 0,
   };
 
 
